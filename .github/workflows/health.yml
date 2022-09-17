@@ -1,6 +1,9 @@
 name: Health Check
 
-on: push
+on:
+  push:
+    branches-ignore:
+      - main
 
 jobs:
   health-check:
@@ -9,12 +12,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install nodejs
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: 16
 
       - name: Install Packages
         run: npm install
@@ -24,3 +27,6 @@ jobs:
 
       - name: Run unit tests
         run: npm run test
+
+      - name: Compile
+        run: npm run compile
