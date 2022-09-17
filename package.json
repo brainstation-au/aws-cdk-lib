@@ -1,6 +1,6 @@
 {
   "name": "@brainstationau/aws-cdk-lib",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Custom L2/L3 Constructs for aws-cdk",
   "main": "dist/index.js",
   "scripts": {
