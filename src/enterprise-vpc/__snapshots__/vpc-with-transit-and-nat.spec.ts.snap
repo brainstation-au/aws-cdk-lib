@@ -1,0 +1,657 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vpc-with-transit-and-nat produces correct cloudformation template 1`] = `
+"Parameters:
+  GroupName:
+    Type: String
+    Default: brainstation
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: Version of the CDK Bootstrap resources in this environment,
+      automatically retrieved from SSM Parameter Store. [cdk:skip]
+Resources:
+  MyVpcVPC4AF5F27E:
+    Type: AWS::EC2::VPC
+    Properties:
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Ipv4IpamPoolId: ipam-pool-0fdbd5d6bea6196ed
+      Ipv4NetmaskLength: 19
+      Tags:
+        - Key: Name
+          Value:
+            Ref: GroupName
+  MyVpcInternetGateway475020C9:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value:
+            Ref: GroupName
+  MyVpcInternetGatewayAttachmentF5FABB76:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      InternetGatewayId:
+        Ref: MyVpcInternetGateway475020C9
+  MyVpcSubnetPublicAFFDB0540:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock:
+        Fn::Select:
+          - 0
+          - Fn::Cidr:
+              - Fn::GetAtt:
+                  - MyVpcVPC4AF5F27E
+                  - CidrBlock
+              - 8
+              - "10"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /public-a
+  MyVpcSubnetPublicB638F8D5A:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock:
+        Fn::Select:
+          - 1
+          - Fn::Cidr:
+              - Fn::GetAtt:
+                  - MyVpcVPC4AF5F27E
+                  - CidrBlock
+              - 8
+              - "10"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /public-b
+  MyVpcSubnetPublicCB7352644:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      AvailabilityZone:
+        Fn::Select:
+          - 2
+          - Fn::GetAZs: ""
+      CidrBlock:
+        Fn::Select:
+          - 2
+          - Fn::Cidr:
+              - Fn::GetAtt:
+                  - MyVpcVPC4AF5F27E
+                  - CidrBlock
+              - 8
+              - "10"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /public-c
+  MyVpcSubnetPrivateA0159B61C:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock:
+        Fn::Select:
+          - 3
+          - Fn::Cidr:
+              - Fn::GetAtt:
+                  - MyVpcVPC4AF5F27E
+                  - CidrBlock
+              - 8
+              - "10"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /private-a
+  MyVpcSubnetPrivateB19604239:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock:
+        Fn::Select:
+          - 4
+          - Fn::Cidr:
+              - Fn::GetAtt:
+                  - MyVpcVPC4AF5F27E
+                  - CidrBlock
+              - 8
+              - "10"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /private-b
+  MyVpcSubnetPrivateC914D6E3A:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      AvailabilityZone:
+        Fn::Select:
+          - 2
+          - Fn::GetAZs: ""
+      CidrBlock:
+        Fn::Select:
+          - 5
+          - Fn::Cidr:
+              - Fn::GetAtt:
+                  - MyVpcVPC4AF5F27E
+                  - CidrBlock
+              - 8
+              - "10"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /private-c
+  MyVpcSubnetTransitABE68DD64:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock:
+        Fn::Select:
+          - 0
+          - Fn::Cidr:
+              - Fn::Select:
+                  - 7
+                  - Fn::Cidr:
+                      - Fn::GetAtt:
+                          - MyVpcVPC4AF5F27E
+                          - CidrBlock
+                      - 8
+                      - "10"
+              - 3
+              - "4"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /private-a
+  MyVpcSubnetTransitB0B92FCF0:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock:
+        Fn::Select:
+          - 1
+          - Fn::Cidr:
+              - Fn::Select:
+                  - 7
+                  - Fn::Cidr:
+                      - Fn::GetAtt:
+                          - MyVpcVPC4AF5F27E
+                          - CidrBlock
+                      - 8
+                      - "10"
+              - 3
+              - "4"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /private-b
+  MyVpcSubnetTransitCC37578F5:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      AvailabilityZone:
+        Fn::Select:
+          - 2
+          - Fn::GetAZs: ""
+      CidrBlock:
+        Fn::Select:
+          - 2
+          - Fn::Cidr:
+              - Fn::Select:
+                  - 7
+                  - Fn::Cidr:
+                      - Fn::GetAtt:
+                          - MyVpcVPC4AF5F27E
+                          - CidrBlock
+                      - 8
+                      - "10"
+              - 3
+              - "4"
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /private-c
+  MyVpcTransitGatewayAttachmentD7A49572:
+    Type: AWS::EC2::TransitGatewayAttachment
+    Properties:
+      SubnetIds:
+        - Ref: MyVpcSubnetTransitABE68DD64
+        - Ref: MyVpcSubnetTransitB0B92FCF0
+        - Ref: MyVpcSubnetTransitCC37578F5
+      TransitGatewayId: tgw-07be5896cb38426e1
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+  MyVpcNatGatewayEipA9AB4F8CA:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+    DependsOn:
+      - MyVpcInternetGatewayAttachmentF5FABB76
+  MyVpcNatGatewayA11977C7C:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId:
+        Ref: MyVpcSubnetPublicAFFDB0540
+      AllocationId:
+        Fn::GetAtt:
+          - MyVpcNatGatewayEipA9AB4F8CA
+          - AllocationId
+  MyVpcNatGatewayEipB14471A54:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+    DependsOn:
+      - MyVpcInternetGatewayAttachmentF5FABB76
+  MyVpcNatGatewayBE3F733AE:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId:
+        Ref: MyVpcSubnetPublicB638F8D5A
+      AllocationId:
+        Fn::GetAtt:
+          - MyVpcNatGatewayEipB14471A54
+          - AllocationId
+  MyVpcNatGatewayEipC00BC15E3:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+    DependsOn:
+      - MyVpcInternetGatewayAttachmentF5FABB76
+  MyVpcNatGatewayC096D5966:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId:
+        Ref: MyVpcSubnetPublicCB7352644
+      AllocationId:
+        Fn::GetAtt:
+          - MyVpcNatGatewayEipC00BC15E3
+          - AllocationId
+  MyVpcRouteTablePublic20E2D0AF:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /public
+  MyVpcRoutePublicDefault4074E1DC:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePublic20E2D0AF
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: MyVpcInternetGateway475020C9
+    DependsOn:
+      - MyVpcInternetGatewayAttachmentF5FABB76
+  MyVpcRoutePublicTransitD953C17B:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePublic20E2D0AF
+      DestinationCidrBlock: 10.0.0.0/8
+      TransitGatewayId: tgw-07be5896cb38426e1
+    DependsOn:
+      - MyVpcTransitGatewayAttachmentD7A49572
+  MyVpcSubnetRouteTableAssociationPublicAFF4F72C0:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePublic20E2D0AF
+      SubnetId:
+        Ref: MyVpcSubnetPublicAFFDB0540
+  MyVpcSubnetRouteTableAssociationPublicB50387D00:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePublic20E2D0AF
+      SubnetId:
+        Ref: MyVpcSubnetPublicB638F8D5A
+  MyVpcSubnetRouteTableAssociationPublicC14D4C18D:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePublic20E2D0AF
+      SubnetId:
+        Ref: MyVpcSubnetPublicCB7352644
+  MyVpcRouteTablePrivateA7341B1A5:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /private-a
+  MyVpcRoutePrivateDefaultA855CFCAA:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateA7341B1A5
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: MyVpcNatGatewayA11977C7C
+  MyVpcRoutePrivateTransitABE5467D7:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateA7341B1A5
+      DestinationCidrBlock: 10.0.0.0/8
+      TransitGatewayId: tgw-07be5896cb38426e1
+    DependsOn:
+      - MyVpcTransitGatewayAttachmentD7A49572
+  MyVpcSubnetRouteTableAssociationPrivateAEC013698:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateA7341B1A5
+      SubnetId:
+        Ref: MyVpcSubnetPrivateA0159B61C
+  MyVpcSubnetRouteTableAssociationTransitA9EFEB4A9:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateA7341B1A5
+      SubnetId:
+        Ref: MyVpcSubnetTransitABE68DD64
+  MyVpcRouteTablePrivateB3907F981:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /private-b
+  MyVpcRoutePrivateDefaultBED225257:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateB3907F981
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: MyVpcNatGatewayBE3F733AE
+  MyVpcRoutePrivateTransitBBB83A1D1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateB3907F981
+      DestinationCidrBlock: 10.0.0.0/8
+      TransitGatewayId: tgw-07be5896cb38426e1
+    DependsOn:
+      - MyVpcTransitGatewayAttachmentD7A49572
+  MyVpcSubnetRouteTableAssociationPrivateB02AA7F96:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateB3907F981
+      SubnetId:
+        Ref: MyVpcSubnetPrivateB19604239
+  MyVpcSubnetRouteTableAssociationTransitB7056CF44:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateB3907F981
+      SubnetId:
+        Ref: MyVpcSubnetTransitB0B92FCF0
+  MyVpcRouteTablePrivateCA2429450:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: MyVpcVPC4AF5F27E
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ""
+              - - Ref: GroupName
+                - /private-c
+  MyVpcRoutePrivateDefaultCA152D692:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateCA2429450
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: MyVpcNatGatewayC096D5966
+  MyVpcRoutePrivateTransitC5F051AB1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateCA2429450
+      DestinationCidrBlock: 10.0.0.0/8
+      TransitGatewayId: tgw-07be5896cb38426e1
+    DependsOn:
+      - MyVpcTransitGatewayAttachmentD7A49572
+  MyVpcSubnetRouteTableAssociationPrivateC3AA5A2D3:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateCA2429450
+      SubnetId:
+        Ref: MyVpcSubnetPrivateC914D6E3A
+  MyVpcSubnetRouteTableAssociationTransitC12A5AB15:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: MyVpcRouteTablePrivateCA2429450
+      SubnetId:
+        Ref: MyVpcSubnetTransitCC37578F5
+  MyVpcParamVpcIdCCE5D477:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Value:
+        Ref: MyVpcVPC4AF5F27E
+      Description: VPC Id
+      Name:
+        Fn::Join:
+          - ""
+          - - /cf/
+            - Ref: GroupName
+            - /vpc/id
+  MyVpcParamSecurityGroupId898A4065:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Value:
+        Fn::GetAtt:
+          - MyVpcVPC4AF5F27E
+          - DefaultSecurityGroup
+      Description: ID of default securite group for intra-vpc access
+      Name:
+        Fn::Join:
+          - ""
+          - - /cf/
+            - Ref: GroupName
+            - /security-group/default/id
+  MyVpcParamPublicSubnetsIds71498C92:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: List<String>
+      Value:
+        Fn::Join:
+          - ","
+          - - Ref: MyVpcSubnetPublicAFFDB0540
+            - Ref: MyVpcSubnetPublicB638F8D5A
+            - Ref: MyVpcSubnetPublicCB7352644
+      Description: List of IDs of the public subnets
+      Name:
+        Fn::Join:
+          - ""
+          - - /cf/
+            - Ref: GroupName
+            - /public-subnets/ids
+  MyVpcParamPrivateSubnetsIds762F1123:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: List<String>
+      Value:
+        Fn::Join:
+          - ","
+          - - Ref: MyVpcSubnetPrivateA0159B61C
+            - Ref: MyVpcSubnetPrivateB19604239
+            - Ref: MyVpcSubnetPrivateC914D6E3A
+      Description: List of IDs of the private subnets
+      Name:
+        Fn::Join:
+          - ""
+          - - /cf/
+            - Ref: GroupName
+            - /private-subnets/ids
+  MyVpcParamTransitSubnetsIds2DBD0A23:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: List<String>
+      Value:
+        Fn::Join:
+          - ","
+          - - Ref: MyVpcSubnetTransitABE68DD64
+            - Ref: MyVpcSubnetTransitB0B92FCF0
+            - Ref: MyVpcSubnetTransitCC37578F5
+      Description: List of IDs of the transit subnets
+      Name:
+        Fn::Join:
+          - ""
+          - - /cf/
+            - Ref: GroupName
+            - /transit-subnets/ids
+Outputs:
+  MyVpcVpcIdEA080D3B:
+    Description: VPC ID
+    Value:
+      Ref: MyVpcVPC4AF5F27E
+    Export:
+      Name:
+        Fn::Join:
+          - ""
+          - - Ref: GroupName
+            - -vpc
+  MyVpcPublicSubnets7A049237:
+    Description: List of IDs of the public subnets
+    Value:
+      Fn::Join:
+        - ","
+        - - Ref: MyVpcSubnetPublicAFFDB0540
+          - Ref: MyVpcSubnetPublicB638F8D5A
+          - Ref: MyVpcSubnetPublicCB7352644
+    Export:
+      Name:
+        Fn::Join:
+          - ""
+          - - Ref: GroupName
+            - -public-subnets
+  MyVpcPrivateSubnets223FF8A8:
+    Description: List of IDs of the private subnets
+    Value:
+      Fn::Join:
+        - ","
+        - - Ref: MyVpcSubnetPrivateA0159B61C
+          - Ref: MyVpcSubnetPrivateB19604239
+          - Ref: MyVpcSubnetPrivateC914D6E3A
+    Export:
+      Name:
+        Fn::Join:
+          - ""
+          - - Ref: GroupName
+            - -private-subnets
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - "1"
+                  - "2"
+                  - "3"
+                  - "4"
+                  - "5"
+                - Ref: BootstrapVersion
+        AssertDescription: CDK bootstrap stack version 6 required. Please run 'cdk
+          bootstrap' with a recent version of the CDK CLI.
+"
+`;
