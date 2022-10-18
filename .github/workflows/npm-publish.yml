@@ -45,6 +45,7 @@ jobs:
           npm version ${{ steps.release-commit.outputs.version }}
 
       - name: Push changes
+        if: ${{ steps.release-commit.outputs.version }}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
