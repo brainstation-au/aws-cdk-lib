@@ -10,3 +10,7 @@ export {
   VPCWithTransitAndNATProps,
   VPCWithTransitProps
 } from './enterprise-vpc';
+export {
+  BatchFargate,
+  BatchFargateProps,
+} from './batch-fargate';

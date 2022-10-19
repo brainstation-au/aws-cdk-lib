@@ -1,8 +1,18 @@
-import { Construct } from 'constructs';
-import { BatchFargateProps } from './props';
 import * as cdk from 'aws-cdk-lib';
-import * as iam from 'aws-cdk-lib/aws-iam';
 import * as batch from 'aws-cdk-lib/aws-batch';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
+import { z } from 'zod';
+
+export const BatchFargateProps = z.object({
+  vpcId: z.string(),
+  subnetIds: z.string().array(),
+  maxvCpus: z.number().positive(),
+  securityGroupIds: z.string().array(),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export type BatchFargateProps = z.infer<typeof BatchFargateProps>;
 
 export class BatchFargate extends Construct {
   readonly compute: batch.CfnComputeEnvironment;

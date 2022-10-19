@@ -1,7 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import YAML from 'yaml';
-import { BatchFargate } from '.';
-import { BatchFargateProps } from './props';
+import { BatchFargate, BatchFargateProps } from '.';
 
 const createStack = (batchProps: BatchFargateProps) => {
   class MyStack extends cdk.Stack {
