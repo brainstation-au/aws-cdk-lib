@@ -25,7 +25,11 @@ export class BatchFargate extends Construct {
       assumedBy: new iam.ServicePrincipal('batch.amazonaws.com'),
       description: 'AWS Batch Service Role',
       managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName('AWSBatchServiceRole'),
+        iam.ManagedPolicy.fromManagedPolicyArn(
+          this,
+          'AWSBatchServiceRole',
+          'arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole',
+        ),
       ],
     });
 
