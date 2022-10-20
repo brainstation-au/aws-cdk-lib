@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "rm -rf dist && tsc -p tsconfig.app.json",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet",
-    "test": "jest --forceExit --detectOpenHandles --updateSnapshot"
+    "test": "jest --forceExit --detectOpenHandles"
   },
   "keywords": [
     "aws-cdk"

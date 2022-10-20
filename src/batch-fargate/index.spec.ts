@@ -30,7 +30,7 @@ const createStack = (batchProps: BatchFargateProps) => {
   return new MyStack(app, 'MyStack');
 };
 
-describe('simple-vpc', () => {
+describe('batch-fargate', () => {
   const stack = createStack({
     vpcId: 'vpc-1234',
     subnetIds: ['subnet-123', 'subnet-234'],
@@ -48,7 +48,7 @@ describe('simple-vpc', () => {
   });
 
   test('creates a compute environment', () => {
-    template.resourceCountIs('AWS::Batch::ComputeEnvironment', 1);
+    template.resourceCountIs('AWS::Batch::ComputeEnvironment', 2);
   });
 
   test('creates a batch job queue', () => {

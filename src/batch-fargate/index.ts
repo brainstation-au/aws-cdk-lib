@@ -46,7 +46,7 @@ export class BatchFargate extends Construct {
       },
     });
 
-    this.computeSpot = new batch.CfnComputeEnvironment(this, 'ComputeEnvironment', {
+    this.computeSpot = new batch.CfnComputeEnvironment(this, 'ComputeEnvironmentSpot', {
       type: 'MANAGED',
       state: 'ENABLED',
       serviceRole: serviceRole.roleArn,
