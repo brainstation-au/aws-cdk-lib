@@ -16,6 +16,7 @@ export type BatchFargateProps = z.infer<typeof BatchFargateProps>;
 
 export class BatchFargate extends Construct {
   readonly compute: batch.CfnComputeEnvironment;
+  readonly computeSpot: batch.CfnComputeEnvironment;
   readonly queue: batch.CfnJobQueue;
 
   constructor(scope: Construct, id: string, props: BatchFargateProps) {
@@ -45,13 +46,31 @@ export class BatchFargate extends Construct {
       },
     });
 
+    this.computeSpot = new batch.CfnComputeEnvironment(this, 'ComputeEnvironment', {
+      type: 'MANAGED',
+      state: 'ENABLED',
+      serviceRole: serviceRole.roleArn,
+      computeResources: {
+        maxvCpus: props.maxvCpus,
+        subnets: props.subnetIds,
+        type: 'FARGATE_SPOT',
+        securityGroupIds: props.securityGroupIds,
+      },
+    });
+
     this.queue = new batch.CfnJobQueue(this, 'JobQueue', {
       priority: 1,
       state: 'ENABLED',
-      computeEnvironmentOrder: [{
-        computeEnvironment: cdk.Fn.ref(this.compute.logicalId),
-        order: 1,
-      }],
+      computeEnvironmentOrder: [
+        {
+          computeEnvironment: cdk.Fn.ref(this.computeSpot.logicalId),
+          order: 1,
+        },
+        {
+          computeEnvironment: cdk.Fn.ref(this.compute.logicalId),
+          order: 2,
+        },
+      ],
     });
   }
 }
